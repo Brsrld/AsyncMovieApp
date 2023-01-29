@@ -8,7 +8,7 @@
 import Foundation
 
 class BaseViewModel<E: ViewStateProtocol>: ObservableObject {
-    @Published var states: E?
+    @Published var states: E = .ready
     
     func changeState(_ state: E) {
         DispatchQueue.main.async { [weak self] in

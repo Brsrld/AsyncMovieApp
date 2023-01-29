@@ -8,6 +8,7 @@
 import Foundation
 
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
+    
     @Published private(set) var topRatedMovies: TopRatedModel?
     private let service: MoviesServiceable
     

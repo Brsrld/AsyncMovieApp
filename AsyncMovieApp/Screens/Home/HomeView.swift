@@ -12,25 +12,18 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
-        ZStack {
-            switch viewModel.states {
-            case .ready:
-                Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-            case .loading:
-                ProgressView()
-            case .finished:
-                Text("finished")
-                    .onAppear{
-                        print(viewModel.topRatedMovies)
-                    }
-            case .error(error: let error):
-                Text(error)
-            case .none:
-                Text("none")
-            }
-        }
-        .onAppear{
-            viewModel.fetchMovies()
+        switch viewModel.states {
+        case .ready:
+            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+                .onAppear{
+                    viewModel.fetchMovies()
+                }
+        case .loading:
+            ProgressView()
+        case .finished:
+            Text(viewModel.topRatedMovies?.results.first?.originalTitle ?? "Finished")
+        case .error(error: let error):
+            Text(error)
         }
     }
 }
