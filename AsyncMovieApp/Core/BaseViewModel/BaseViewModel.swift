@@ -13,6 +13,7 @@ class BaseViewModel<E: ViewStateProtocol>: ObservableObject {
     func changeState(_ state: E) {
         DispatchQueue.main.async { [weak self] in
             self?.states = state
+            debugPrint("State changed to \(state)")
         }
     }
 }

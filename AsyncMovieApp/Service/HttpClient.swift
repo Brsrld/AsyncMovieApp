@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 
-final class HTTPClient {
-    
-    static let shared = HTTPClient()
-    
+protocol HTTPClient {
+    func sendRequest<T: Decodable>(endpoint: Endpoint, responseModel: T.Type) async -> Result<T, RequestError>
+}
+
+extension HTTPClient {
     func sendRequest<T: Decodable>(
         endpoint: Endpoint,
         responseModel: T.Type

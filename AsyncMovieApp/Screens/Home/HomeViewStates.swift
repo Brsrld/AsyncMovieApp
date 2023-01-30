@@ -11,5 +11,6 @@ enum HomeViewStates: ViewStateProtocol {
     case loading
     case finished
     case ready
+    case searching
     case error(error: String)
 }

@@ -15,6 +15,11 @@ enum RequestMethod: String {
     case put = "PUT"
 }
 
+enum DataType {
+    case image
+    case json
+}
+
 enum RequestError: Error {
     case decode
     case invalidURL
@@ -22,6 +27,7 @@ enum RequestError: Error {
     case unauthorized
     case unexpectedStatusCode
     case unknown
+    case badImage
     
     var customMessage: String {
         switch self {
@@ -29,6 +35,8 @@ enum RequestError: Error {
             return "Decode error"
         case .unauthorized:
             return "Session expired"
+        case .badImage:
+            return "Bad Image"
         default:
             return "Unknown error"
         }

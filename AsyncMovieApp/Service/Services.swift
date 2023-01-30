@@ -6,18 +6,19 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol MoviesServiceable {
     func getTopRated() async -> Result<TopRatedModel, RequestError>
     func getMovieDetail(id: Int) async -> Result<MovieModel, RequestError>
 }
 
-struct MoviesService: MoviesServiceable {
+struct MoviesService: HTTPClient, MoviesServiceable {
     func getTopRated() async -> Result<TopRatedModel, RequestError> {
-        return await HTTPClient.shared.sendRequest(endpoint: MoviesEndpoint.topRated, responseModel: TopRatedModel.self)
+        return await sendRequest(endpoint: MoviesEndpoint.topRated, responseModel: TopRatedModel.self)
     }
     
     func getMovieDetail(id: Int) async -> Result<MovieModel, RequestError> {
-        return await  HTTPClient.shared.sendRequest(endpoint: MoviesEndpoint.movieDetail(id: id), responseModel: MovieModel.self)
+        return await sendRequest(endpoint: MoviesEndpoint.movieDetail(id: id), responseModel: MovieModel.self)
     }
 }

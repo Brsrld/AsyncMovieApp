@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5562E9D82987CBAA00F30526 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9D72987CBAA00F30526 /* HomeViewCell.swift */; };
+		5562E9DE2987CEEA00F30526 /* AppViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9DD2987CEEA00F30526 /* AppViewBuilder.swift */; };
+		5562E9E12987D79800F30526 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9E02987D79800F30526 /* View+Extension.swift */; };
+		5562E9E32987D7C500F30526 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9E22987D7C500F30526 /* RoundedCorners.swift */; };
+		5562E9E52987DCEF00F30526 /* HomeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9E42987DCEF00F30526 /* HomeCellViewModel.swift */; };
 		55C2BE6A298691D4008B1939 /* AsyncMovieAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */; };
 		55C2BE6C298691D4008B1939 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE6B298691D4008B1939 /* ContentView.swift */; };
 		55C2BE6E298691D5008B1939 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C2BE6D298691D5008B1939 /* Assets.xcassets */; };
@@ -25,6 +30,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5562E9D72987CBAA00F30526 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
+		5562E9DD2987CEEA00F30526 /* AppViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewBuilder.swift; sourceTree = "<group>"; };
+		5562E9E02987D79800F30526 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		5562E9E22987D7C500F30526 /* RoundedCorners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorners.swift; sourceTree = "<group>"; };
+		5562E9E42987DCEF00F30526 /* HomeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellViewModel.swift; sourceTree = "<group>"; };
 		55C2BE66298691D4008B1939 /* AsyncMovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncMovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncMovieAppApp.swift; sourceTree = "<group>"; };
 		55C2BE6B298691D4008B1939 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +64,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5562E9D52987CB9600F30526 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5562E9DA2987CE9E00F30526 /* Modifier */,
+				5562E9D62987CB9A00F30526 /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		5562E9D62987CB9A00F30526 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5562E9D72987CBAA00F30526 /* HomeViewCell.swift */,
+				5562E9E42987DCEF00F30526 /* HomeCellViewModel.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		5562E9DA2987CE9E00F30526 /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				5562E9DD2987CEEA00F30526 /* AppViewBuilder.swift */,
+				5562E9E22987D7C500F30526 /* RoundedCorners.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		5562E9DF2987D77F00F30526 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5562E9E02987D79800F30526 /* View+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		55C2BE5D298691D4008B1939 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +118,7 @@
 		55C2BE68298691D4008B1939 /* AsyncMovieApp */ = {
 			isa = PBXGroup;
 			children = (
+				5562E9D52987CB9600F30526 /* Views */,
 				55C2BE872986BE1B008B1939 /* Core */,
 				55C2BE862986BE11008B1939 /* Screens */,
 				55C2BE8029869471008B1939 /* Models */,
@@ -122,6 +168,7 @@
 		55C2BE872986BE1B008B1939 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				5562E9DF2987D77F00F30526 /* Extensions */,
 				55C2BE942986D5D4008B1939 /* BaseViewModel */,
 				55C2BE6B298691D4008B1939 /* ContentView.swift */,
 				55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */,
@@ -218,15 +265,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5562E9DE2987CEEA00F30526 /* AppViewBuilder.swift in Sources */,
 				55C2BE7D298693C9008B1939 /* HttpClient.swift in Sources */,
+				5562E9E12987D79800F30526 /* View+Extension.swift in Sources */,
+				5562E9E52987DCEF00F30526 /* HomeCellViewModel.swift in Sources */,
 				55C2BE962986D5E2008B1939 /* BaseViewModel.swift in Sources */,
 				55C2BE7B2986939A008B1939 /* Request.swift in Sources */,
+				5562E9E32987D7C500F30526 /* RoundedCorners.swift in Sources */,
 				55C2BE6C298691D4008B1939 /* ContentView.swift in Sources */,
 				55C2BE912986CCD1008B1939 /* HomeViewModel.swift in Sources */,
 				55C2BE792986937E008B1939 /* Endpoints.swift in Sources */,
 				55C2BE6A298691D4008B1939 /* AsyncMovieAppApp.swift in Sources */,
 				55C2BE8B2986BE42008B1939 /* HomeView.swift in Sources */,
 				55C2BE932986CDD4008B1939 /* HomeViewStates.swift in Sources */,
+				5562E9D82987CBAA00F30526 /* HomeViewCell.swift in Sources */,
 				55C2BE822986961D008B1939 /* TopRatedModel.swift in Sources */,
 				55C2BE8F2986BE8E008B1939 /* Services.swift in Sources */,
 				55C2BE852986969E008B1939 /* MovieModel.swift in Sources */,

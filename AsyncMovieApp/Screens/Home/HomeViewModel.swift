@@ -6,11 +6,17 @@
 //
 
 import Foundation
+import SwiftUI
 
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
     
-    @Published private(set) var topRatedMovies: TopRatedModel?
+    @Published private(set) var topRatedMovies = [MovieModel]()
+    @State var searchText = ""
     private let service: MoviesServiceable
+    var filteredData: [MovieModel] {
+        self.changeState(.searching)
+        return topRatedMovies.filter { $0.title.contains(searchText) }
+    }
     
     override init() {
         self.service = MoviesService()
@@ -24,7 +30,7 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
             switch result {
             case .success(let topRated):
                 DispatchQueue.main.async { [weak self] in
-                    self?.topRatedMovies = topRated
+                    self?.topRatedMovies = topRated.results
                 }
             case .failure(let error):
                 self?.changeState(.error(error: error.localizedDescription))

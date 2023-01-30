@@ -12,19 +12,43 @@ struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
     
     var body: some View {
+        baseView()
+            .onAppear{
+                viewModel.fetchMovies()
+            }
+            .navigationBarTitleDisplayMode(.automatic)
+            .navigationTitle("Top Rated")
+            .searchable(text: $viewModel.searchText)
+    }
+    
+    @ViewBuilder
+    private func baseView() -> some View {
         switch viewModel.states {
         case .ready:
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-                .onAppear{
-                    viewModel.fetchMovies()
-                }
+            ProgressView()
         case .loading:
             ProgressView()
         case .finished:
-            Text(viewModel.topRatedMovies?.results.first?.originalTitle ?? "Finished")
+            movieList(content: viewModel.topRatedMovies)
         case .error(error: let error):
             Text(error)
+        case .searching:
+            movieList(content: viewModel.filteredData)
         }
+    }
+    
+    @ViewBuilder
+    private func movieList(content:[MovieModel]) -> some View {
+        VStack {
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(spacing:-8) {
+                    ForEach(content, id: \.id) { movie in
+                        HomeViewCell(content: movie)
+                    }
+                }
+            }
+        }
+        .padding(.top)
     }
 }
 
