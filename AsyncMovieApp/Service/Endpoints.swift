@@ -10,6 +10,7 @@ import Foundation
 protocol Endpoint {
     var scheme: String { get }
     var host: String { get }
+    var imageHost: String { get}
     var path: String { get }
     var method: RequestMethod { get }
     var header: [String: String]? { get }
@@ -24,6 +25,10 @@ extension Endpoint {
 
     var host: String {
         return "api.themoviedb.org"
+    }
+    
+    var imageHost: String {
+        return "image.tmdb.org"
     }
 }
 
@@ -57,7 +62,7 @@ extension MoviesEndpoint: Endpoint {
         case .person(let id):
             return "/3/person/\(id)"
         case .image(let imagePath):
-            return "https://image.tmdb.org/t/p/w500\(imagePath)"
+            return "/t/p/w500\(imagePath)"
         case .tv:
             return "/3/tv/popular"
         case .people:

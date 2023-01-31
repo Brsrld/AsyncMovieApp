@@ -11,13 +11,23 @@ final class HomeCellViewModel: ObservableObject {
     
     var content: Results
     var imageUrl: URL {
+        var urlComponents = URLComponents()
         if let posterPath = content.posterPath {
-            guard let url =  URL(string: MoviesEndpoint.image(imagePath: posterPath).path) else { return .applicationDirectory}
-            return url
+            urlComponents.scheme = MoviesEndpoint.image(imagePath: posterPath).scheme
+            urlComponents.host = MoviesEndpoint.image(imagePath: posterPath).imageHost
+            urlComponents.path = MoviesEndpoint.image(imagePath: posterPath).path
+            urlComponents.query = MoviesEndpoint.image(imagePath: posterPath).query
         } else {
-            guard let url =  URL(string: MoviesEndpoint.image(imagePath: content.profilePath ?? "").path) else { return .applicationDirectory}
-            return url
+            urlComponents.scheme = MoviesEndpoint.image(imagePath: content.profilePath ?? "").scheme
+            urlComponents.host = MoviesEndpoint.image(imagePath: content.profilePath ?? "").imageHost
+            urlComponents.path = MoviesEndpoint.image(imagePath: content.profilePath ?? "").path
+            urlComponents.query = MoviesEndpoint.image(imagePath: content.profilePath ?? "").query
         }
+        
+        guard let url = urlComponents.url else {
+            return .applicationDirectory
+        }
+        return url
     }
     
     var title: String {
