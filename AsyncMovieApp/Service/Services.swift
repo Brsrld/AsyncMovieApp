@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 protocol MoviesServiceable {
-    func getTopRated() async -> Result<TopRatedModel, RequestError>
+    func getTopRated(page: Int) async -> Result<TopRatedModel, RequestError>
     func getMovieDetail(id: Int) async -> Result<MovieModel, RequestError>
 }
 
 struct MoviesService: HTTPClient, MoviesServiceable {
-    func getTopRated() async -> Result<TopRatedModel, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.topRated, responseModel: TopRatedModel.self)
+    func getTopRated(page: Int) async -> Result<TopRatedModel, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.topRated(page: page), responseModel: TopRatedModel.self)
     }
     
     func getMovieDetail(id: Int) async -> Result<MovieModel, RequestError> {

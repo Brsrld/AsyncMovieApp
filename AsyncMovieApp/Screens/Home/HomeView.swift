@@ -52,16 +52,14 @@ struct HomeView: View {
     
     @ViewBuilder
     private func movieList(content:[MovieModel]?) -> some View {
-        VStack {
-            ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing:-8) {
-                    if let data = content {
-                        ForEach(data, id: \.id) { movie in
-                            HomeViewCell(content: movie)
-                                .onAppear{
-                                    viewModel.loadMoreContent(movieModel: movie)
-                                }
-                        }
+        ScrollView(.vertical, showsIndicators: true) {
+            LazyVStack(spacing:-8) {
+                if let data = content {
+                    ForEach(data, id: \.id) { movie in
+                        HomeViewCell(content: movie)
+                            .onAppear{
+                                viewModel.loadMoreContent(movieModel: movie)
+                            }
                     }
                 }
             }

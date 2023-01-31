@@ -11,10 +11,13 @@ import SwiftUI
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
     
     @Published private(set) var topRatedMovies: TopRatedModel?
-    var showingAlert: Bool = false
     
     private let service: MoviesServiceable
     var filteredData = [MovieModel]()
+    var showingAlert: Bool = false
+    var lastContent:Int {
+        return topRatedMovies?.results.last?.id ?? 0
+    }
     
     override init() {
         self.service = MoviesService()
@@ -40,31 +43,35 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
     }
     
     func loadMoreContent(movieModel:MovieModel) {
-        guard let page = topRatedMovies?.page else { return }
-        if movieModel.id == topRatedMovies?.results.last?.id && topRatedMovies?.page != topRatedMovies?.totalPages {
-            fetchMovies(page: page + 1)
-           }
-       }
+        if movieModel.id ==  lastContent {
+            fetchMovies(page: (topRatedMovies?.page ?? 1) + 1)
+        }
+    }
     
     func appendItems(items: TopRatedModel) {
-        topRatedMovies?.totalPages = items.totalPages
-        topRatedMovies?.page = items.page
-        topRatedMovies?.totalResults = items.totalResults
-        topRatedMovies?.results.append(contentsOf: items.results)
+        if topRatedMovies?.results == nil {
+            topRatedMovies = items
+        } else {
+            topRatedMovies?.totalPages = items.totalPages
+            topRatedMovies?.page = items.page
+            topRatedMovies?.totalResults = items.totalResults
+            topRatedMovies?.results.append(contentsOf: items.results)
+        }
+        
     }
     
     func fetchMovies(page:Int) {
-        self.changeState(.loading)
+        if page == 1 {
+            self.changeState(.loading)
+        }
+        
         Task(priority: .background) { [weak self] in
-            let result = await service.getTopRated()
+            let result = await service.getTopRated(page: page)
             self?.changeState(.finished)
             switch result {
             case .success(let topRated):
                 DispatchQueue.main.async { [weak self] in
-                    self?.topRatedMovies = topRated
-                    if topRated.page != 1 {
-                        self?.appendItems(items: topRated)
-                    }
+                    self?.appendItems(items: topRated)
                 }
             case .failure(let error):
                 self?.changeState(.error(error: error.localizedDescription))

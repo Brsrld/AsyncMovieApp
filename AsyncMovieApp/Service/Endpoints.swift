@@ -14,6 +14,7 @@ protocol Endpoint {
     var method: RequestMethod { get }
     var header: [String: String]? { get }
     var body: [String: String]? { get }
+    var query: String { get }
 }
 
 extension Endpoint {
@@ -27,15 +28,26 @@ extension Endpoint {
 }
 
 enum MoviesEndpoint {
-    case topRated
+    case topRated(page: Int)
     case movieDetail(id: Int)
     case image(imagePath:String)
 }
 
 extension MoviesEndpoint: Endpoint {
+    var query: String {
+        switch self {
+        case .topRated(let page):
+            return "page=\(page)"
+        case .movieDetail(_):
+            return ""
+        case .image(_):
+            return ""
+        }
+    }
+    
     var path: String {
         switch self {
-        case .topRated:
+        case .topRated(_):
             return "/3/movie/top_rated"
         case .movieDetail(let id):
             return "/3/movie/\(id)"
