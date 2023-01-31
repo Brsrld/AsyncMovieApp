@@ -8,15 +8,32 @@
 import Foundation
 import SwiftUI
 
+enum MovieType {
+    case tv
+    case movie
+    case people
+    
+    var title: String {
+        switch self {
+        case .tv:
+            return "TV"
+        case .movie:
+            return "Movie"
+        case .people:
+            return "People"
+        }
+    }
+}
+
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
     
-    @Published private(set) var topRatedMovies: TopRatedModel?
-    
+    @Published private(set) var topRatedMovies: ServiceModel?
     private let service: MoviesServiceable
-    var filteredData = [MovieModel]()
+    var filteredData = [Results]()
     var showingAlert: Bool = false
+    var movieTypes: [MovieType] = [.movie,.people,.tv]
     var lastContent:Int {
-        return topRatedMovies?.results.last?.id ?? 0
+        return topRatedMovies?.results?.last?.id ?? 0
     }
     
     override init() {
@@ -32,46 +49,63 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
             }
         }
         guard let data = topRatedMovies?.results else { return }
-        filteredData = data
-        filteredData = filteredData.filter {
-            $0.title.lowercased().contains(searchTerm.lowercased())
+        filteredData = data.filter {
+            (($0.title ?? $0.name) ?? "").contains(searchTerm)
         }
     }
     
     func changeStateToReady() {
+        topRatedMovies = nil
         changeState(.ready)
     }
     
-    func loadMoreContent(movieModel:MovieModel) {
-        if movieModel.id ==  lastContent {
-            fetchMovies(page: (topRatedMovies?.page ?? 1) + 1)
+    func loadMoreContent(movieModel:Results, movieType: MovieType) {
+        if movieModel.id ==  lastContent  && topRatedMovies?.page != topRatedMovies?.totalPages {
+            fetchMovies(page: (topRatedMovies?.page ?? 1) + 1, movieType: movieType)
         }
     }
     
-    func appendItems(items: TopRatedModel) {
+    func appendItems(items: ServiceModel) {
         if topRatedMovies?.results == nil {
             topRatedMovies = items
+            topRatedMovies?.results = items.results?.filter {
+                $0.overview != ""
+            }
         } else {
+            guard var result = topRatedMovies?.results,
+                  let contents = items.results else { return }
             topRatedMovies?.totalPages = items.totalPages
             topRatedMovies?.page = items.page
             topRatedMovies?.totalResults = items.totalResults
-            topRatedMovies?.results.append(contentsOf: items.results)
+            result.append(contentsOf: contents)
+            result = result.filter {
+                $0.overview != ""
+            }
+            topRatedMovies?.results = result
         }
-        
     }
     
-    func fetchMovies(page:Int) {
+    func fetchMovies(page:Int, movieType: MovieType) {
         if page == 1 {
             self.changeState(.loading)
         }
         
         Task(priority: .background) { [weak self] in
-            let result = await service.getTopRated(page: page)
+            var result: Result<ServiceModel, RequestError>
+            switch movieType {
+            case .tv:
+                result = await service.getTV(page: page)
+            case .movie:
+                result = await service.getMovie(page: page)
+            case .people:
+                result = await service.getPeople(page: page)
+            }
+            
             self?.changeState(.finished)
             switch result {
-            case .success(let topRated):
+            case .success(let data):
                 DispatchQueue.main.async { [weak self] in
-                    self?.appendItems(items: topRated)
+                    self?.appendItems(items: data)
                 }
             case .failure(let error):
                 self?.changeState(.error(error: error.localizedDescription))

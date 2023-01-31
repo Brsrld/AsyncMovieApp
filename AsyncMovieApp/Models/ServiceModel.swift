@@ -8,11 +8,11 @@
 import Foundation
 
 // MARK: - TopRated
-struct TopRatedModel: Codable {
-    var page: Int
-    var totalPages: Int
-    var totalResults: Int
-    var results: [MovieModel]
+struct ServiceModel: Codable {
+    var page: Int?
+    var totalPages: Int?
+    var totalResults: Int?
+    var results: [Results]?
 
     enum CodingKeys: String, CodingKey {
         case page

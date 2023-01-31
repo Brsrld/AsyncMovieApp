@@ -11,15 +11,18 @@ struct HomeView: View {
     
     @StateObject var viewModel = HomeViewModel()
     @State private var searchText = ""
+    @State var movieType: MovieType = .movie
     
     var body: some View {
-        baseView()
-            .navigationBarTitleDisplayMode(.automatic)
-            .navigationTitle("Top Rated")
-            .searchable(text: $searchText)
-            .onChange(of: searchText) { newValue in
-                viewModel.search(searchTerm: newValue)
-            }
+        ScrollView(.vertical, showsIndicators: true) {
+            baseView()
+        }
+        .navigationBarTitleDisplayMode(.automatic)
+        .navigationTitle(movieType.title)
+        .searchable(text: $searchText, placement: .toolbar)
+        .onChange(of: searchText) { newValue in
+            viewModel.search(searchTerm: newValue)
+        }
     }
     
     @ViewBuilder
@@ -28,13 +31,14 @@ struct HomeView: View {
         case .loading:
             ProgressView()
         case .finished:
+            chooseMovieType()
             movieList(content: viewModel.topRatedMovies?.results)
         case .searching:
             movieList(content: viewModel.filteredData)
         case .ready:
             ProgressView()
                 .onAppear{
-                    viewModel.fetchMovies(page: 1)
+                    viewModel.fetchMovies(page: 1, movieType: movieType)
                 }
         case .error(error: let error):
             ProgressView()
@@ -51,20 +55,37 @@ struct HomeView: View {
     }
     
     @ViewBuilder
-    private func movieList(content:[MovieModel]?) -> some View {
-        ScrollView(.vertical, showsIndicators: true) {
-            LazyVStack(spacing:-8) {
-                if let data = content {
-                    ForEach(data, id: \.id) { movie in
-                        HomeViewCell(content: movie)
-                            .onAppear{
-                                viewModel.loadMoreContent(movieModel: movie)
-                            }
-                    }
+    private func movieList(content:[Results]?) -> some View {
+        
+        LazyVStack(spacing:-8) {
+            if let data = content {
+                ForEach(data, id: \.id) { movie in
+                    HomeViewCell(content: movie)
+                        .onAppear{
+                            viewModel.loadMoreContent(movieModel: movie, movieType: movieType)
+                        }
                 }
             }
         }
         .padding(.top)
+    }
+    
+    @ViewBuilder
+    private func chooseMovieType() -> some View {
+        VStack {
+            Picker("", selection: $movieType) {
+                ForEach(viewModel.movieTypes, id: \.self) {
+                    Text($0.title)
+                }
+            }
+            .onChange(of: movieType, perform: { newValue in
+                viewModel.changeStateToReady()
+                viewModel.fetchMovies(page: 1, movieType: newValue)
+                self.movieType = newValue
+            })
+            .pickerStyle(.segmented)
+        }
+        .padding(.horizontal)
     }
 }
 
