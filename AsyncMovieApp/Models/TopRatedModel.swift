@@ -9,10 +9,10 @@ import Foundation
 
 // MARK: - TopRated
 struct TopRatedModel: Codable {
-    let page: Int
-    let totalPages: Int
-    let totalResults: Int
-    let results: [MovieModel]
+    var page: Int
+    var totalPages: Int
+    var totalResults: Int
+    var results: [MovieModel]
 
     enum CodingKeys: String, CodingKey {
         case page

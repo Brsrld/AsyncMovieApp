@@ -13,7 +13,6 @@
 		5562E9E32987D7C500F30526 /* RoundedCorners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9E22987D7C500F30526 /* RoundedCorners.swift */; };
 		5562E9E52987DCEF00F30526 /* HomeCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9E42987DCEF00F30526 /* HomeCellViewModel.swift */; };
 		55C2BE6A298691D4008B1939 /* AsyncMovieAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */; };
-		55C2BE6C298691D4008B1939 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE6B298691D4008B1939 /* ContentView.swift */; };
 		55C2BE6E298691D5008B1939 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C2BE6D298691D5008B1939 /* Assets.xcassets */; };
 		55C2BE71298691D5008B1939 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55C2BE70298691D5008B1939 /* Preview Assets.xcassets */; };
 		55C2BE792986937E008B1939 /* Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE782986937E008B1939 /* Endpoints.swift */; };
@@ -37,7 +36,6 @@
 		5562E9E42987DCEF00F30526 /* HomeCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCellViewModel.swift; sourceTree = "<group>"; };
 		55C2BE66298691D4008B1939 /* AsyncMovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AsyncMovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncMovieAppApp.swift; sourceTree = "<group>"; };
-		55C2BE6B298691D4008B1939 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		55C2BE6D298691D5008B1939 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		55C2BE70298691D5008B1939 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		55C2BE782986937E008B1939 /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 			children = (
 				5562E9DF2987D77F00F30526 /* Extensions */,
 				55C2BE942986D5D4008B1939 /* BaseViewModel */,
-				55C2BE6B298691D4008B1939 /* ContentView.swift */,
 				55C2BE69298691D4008B1939 /* AsyncMovieAppApp.swift */,
 			);
 			path = Core;
@@ -272,7 +269,6 @@
 				55C2BE962986D5E2008B1939 /* BaseViewModel.swift in Sources */,
 				55C2BE7B2986939A008B1939 /* Request.swift in Sources */,
 				5562E9E32987D7C500F30526 /* RoundedCorners.swift in Sources */,
-				55C2BE6C298691D4008B1939 /* ContentView.swift in Sources */,
 				55C2BE912986CCD1008B1939 /* HomeViewModel.swift in Sources */,
 				55C2BE792986937E008B1939 /* Endpoints.swift in Sources */,
 				55C2BE6A298691D4008B1939 /* AsyncMovieAppApp.swift in Sources */,
