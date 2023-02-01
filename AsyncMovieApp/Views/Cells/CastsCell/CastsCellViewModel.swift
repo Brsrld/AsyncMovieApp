@@ -9,7 +9,7 @@ import Foundation
 
 final class CastsCellViewModel {
     
-    var content: Results
+    var content: Cast
     
     var imageUrl: URL {
         var urlComponents = URLComponents()
@@ -29,7 +29,7 @@ final class CastsCellViewModel {
     }
     
     
-    init(content: Results) {
+    init(content: Cast) {
         self.content = content
     }
 }

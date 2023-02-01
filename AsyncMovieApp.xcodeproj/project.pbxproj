@@ -32,6 +32,12 @@
 		55C2BE932986CDD4008B1939 /* HomeViewStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE922986CDD4008B1939 /* HomeViewStates.swift */; };
 		55C2BE962986D5E2008B1939 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE952986D5E2008B1939 /* BaseViewModel.swift */; };
 		55C2BE982986DA89008B1939 /* BaseViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C2BE972986DA89008B1939 /* BaseViewState.swift */; };
+		55E36886298AC51700ABB091 /* DetailScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E36885298AC51700ABB091 /* DetailScreenViewModel.swift */; };
+		55E36888298AC55A00ABB091 /* DetailViewStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E36887298AC55A00ABB091 /* DetailViewStates.swift */; };
+		55E3688A298ACDD600ABB091 /* CastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E36889298ACDD600ABB091 /* CastModel.swift */; };
+		55E3688C298AD82F00ABB091 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3688B298AD82F00ABB091 /* LazyView.swift */; };
+		55E3688F298AE64500ABB091 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E3688E298AE64500ABB091 /* VideoModel.swift */; };
+		55E36891298AEC9E00ABB091 /* TVDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E36890298AEC9E00ABB091 /* TVDetailsModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +67,12 @@
 		55C2BE922986CDD4008B1939 /* HomeViewStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewStates.swift; sourceTree = "<group>"; };
 		55C2BE952986D5E2008B1939 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		55C2BE972986DA89008B1939 /* BaseViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewState.swift; sourceTree = "<group>"; };
+		55E36885298AC51700ABB091 /* DetailScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailScreenViewModel.swift; sourceTree = "<group>"; };
+		55E36887298AC55A00ABB091 /* DetailViewStates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewStates.swift; sourceTree = "<group>"; };
+		55E36889298ACDD600ABB091 /* CastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastModel.swift; sourceTree = "<group>"; };
+		55E3688B298AD82F00ABB091 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		55E3688E298AE64500ABB091 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
+		55E36890298AEC9E00ABB091 /* TVDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVDetailsModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +127,7 @@
 			children = (
 				5572F516298A64EF003A729B /* HeaderView.swift */,
 				5572F518298A681A003A729B /* RatingView.swift */,
+				55E3688B298AD82F00ABB091 /* LazyView.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -123,6 +136,8 @@
 			isa = PBXGroup;
 			children = (
 				5572F513298A64B3003A729B /* DetailScreenView.swift */,
+				55E36885298AC51700ABB091 /* DetailScreenViewModel.swift */,
+				55E36887298AC55A00ABB091 /* DetailViewStates.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -197,9 +212,12 @@
 		55C2BE8029869471008B1939 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				55E36890298AEC9E00ABB091 /* TVDetailsModel.swift */,
 				55C2BE812986961D008B1939 /* ServiceModel.swift */,
 				55C2BE842986969E008B1939 /* Results.swift */,
 				55219DBD2989AEFA001EC7F8 /* PeopleDetailsModel.swift */,
+				55E36889298ACDD600ABB091 /* CastModel.swift */,
+				55E3688E298AE64500ABB091 /* VideoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,13 +331,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				5562E9DE2987CEEA00F30526 /* AppViewBuilder.swift in Sources */,
+				55E36891298AEC9E00ABB091 /* TVDetailsModel.swift in Sources */,
 				55C2BE7D298693C9008B1939 /* HttpClient.swift in Sources */,
 				5562E9E12987D79800F30526 /* View+Extension.swift in Sources */,
+				55E3688F298AE64500ABB091 /* VideoModel.swift in Sources */,
 				5562E9E52987DCEF00F30526 /* HomeCellViewModel.swift in Sources */,
 				55C2BE962986D5E2008B1939 /* BaseViewModel.swift in Sources */,
+				55E36886298AC51700ABB091 /* DetailScreenViewModel.swift in Sources */,
+				55E3688C298AD82F00ABB091 /* LazyView.swift in Sources */,
 				55C2BE7B2986939A008B1939 /* Request.swift in Sources */,
 				5572F519298A681A003A729B /* RatingView.swift in Sources */,
+				55E3688A298ACDD600ABB091 /* CastModel.swift in Sources */,
 				5562E9E32987D7C500F30526 /* RoundedCorners.swift in Sources */,
+				55E36888298AC55A00ABB091 /* DetailViewStates.swift in Sources */,
 				55C2BE912986CCD1008B1939 /* HomeViewModel.swift in Sources */,
 				5572F514298A64B3003A729B /* DetailScreenView.swift in Sources */,
 				5572F51C298A8B6D003A729B /* CastsCell.swift in Sources */,

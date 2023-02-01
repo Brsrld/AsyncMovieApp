@@ -53,17 +53,22 @@ struct HomeView: View {
                 }
         }
     }
-    
     @ViewBuilder
     private func movieList(content:[Results]?) -> some View {
         
         LazyVStack(spacing:-8) {
             if let data = content {
                 ForEach(data, id: \.id) { movie in
-                    HomeViewCell(content: movie)
-                        .onAppear{
-                            viewModel.loadMoreContent(movieModel: movie, movieType: movieType)
-                        }
+                    VStack {
+                        NavigationLink(
+                            destination: LazyView(DetailScreenView(id: movie.id ?? 0, type: movieType)),
+                            label: {
+                                HomeViewCell(content: movie)
+                            })
+                    }
+                    .onAppear{
+                        viewModel.loadMoreContent(movieModel: movie, movieType: movieType)
+                    }
                 }
             }
         }

@@ -11,7 +11,7 @@ struct CastsCell: View {
     var proxy: GeometryProxy
     var viewModel: CastsCellViewModel
     
-    init(content:Results, proxy: GeometryProxy) {
+    init(content:Cast, proxy: GeometryProxy) {
         self.viewModel = CastsCellViewModel(content: content)
         self.proxy = proxy
     }
@@ -23,12 +23,11 @@ struct CastsCell: View {
             
             HStack {
                 Text(viewModel.name)
-                    .modifier(AppViewBuilder(textFont: .callout, alingment: .leading))
+                    .modifier(AppViewBuilder(textFont: .caption2, alingment: .leading))
                 Spacer()
             }
         }
-        .frame(width: proxy.size.width / 3, height: proxy.size.height / 3)
-        .padding()
+        .frame(width: proxy.size.width / 4.25, height: proxy.size.height / 4.25)
     }
     
     @ViewBuilder

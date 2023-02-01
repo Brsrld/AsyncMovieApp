@@ -14,6 +14,9 @@ protocol MoviesServiceable {
     func getPeople(page: Int) async -> Result<ServiceModel, RequestError>
     func getDetail(id: Int) async -> Result<Results, RequestError>
     func getPersonDetail(id: Int) async -> Result<PeopleDetailsModel, RequestError>
+    func getMovieCredits(id: Int) async -> Result<CastModel, RequestError>
+    func getTVDetails(id: Int) async -> Result<TVDetailsModel, RequestError>
+    func getTVCredits(id: Int) async -> Result<CastModel, RequestError>
 }
 
 struct MoviesService: HTTPClient, MoviesServiceable {
@@ -35,5 +38,17 @@ struct MoviesService: HTTPClient, MoviesServiceable {
     
     func getPersonDetail(id: Int) async -> Result<PeopleDetailsModel, RequestError> {
         return await sendRequest(endpoint: MoviesEndpoint.person(id: id), responseModel: PeopleDetailsModel.self)
+    }
+    
+    func getMovieCredits(id: Int) async -> Result<CastModel, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: CastModel.self)
+    }
+    
+    func getTVDetails(id: Int) async -> Result<TVDetailsModel, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: TVDetailsModel.self)
+    }
+    
+    func getTVCredits(id: Int) async -> Result<CastModel, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: CastModel.self)
     }
 }

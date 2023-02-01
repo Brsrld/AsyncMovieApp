@@ -26,6 +26,7 @@ struct HeaderView: View {
                     VStack {
                         Text(title)
                             .modifier(AppViewBuilder(textFont: .title, alingment: .center))
+                        
                         RatingView(rating: 4)
                     }
                     .padding(.top)
