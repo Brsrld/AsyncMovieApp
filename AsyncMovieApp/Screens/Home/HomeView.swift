@@ -72,19 +72,17 @@ struct HomeView: View {
     
     @ViewBuilder
     private func chooseMovieType() -> some View {
-        VStack {
-            Picker("", selection: $movieType) {
-                ForEach(viewModel.movieTypes, id: \.self) {
-                    Text($0.title)
-                }
+        Picker("", selection: $movieType) {
+            ForEach(viewModel.movieTypes, id: \.self) {
+                Text($0.title)
             }
-            .onChange(of: movieType, perform: { newValue in
-                viewModel.changeStateToReady()
-                viewModel.fetchMovies(page: 1, movieType: newValue)
-                self.movieType = newValue
-            })
-            .pickerStyle(.segmented)
         }
+        .onChange(of: movieType, perform: { newValue in
+            viewModel.changeStateToReady()
+            viewModel.fetchMovies(page: 1, movieType: newValue)
+            self.movieType = newValue
+        })
+        .pickerStyle(.segmented)
         .padding(.horizontal)
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeViewCell: View {
     let screenBounds = UIScreen.main.bounds
-    @ObservedObject var viewModel: HomeCellViewModel
+    var viewModel: HomeCellViewModel
     
     init(content:Results) {
         self.viewModel = HomeCellViewModel(content: content)
@@ -76,6 +76,15 @@ struct HomeViewCell: View {
             .shadow(radius: 2)
             .frame(width: screenBounds.width / 1.55)
             .padding(.top)
+        }
+    }
+}
+
+struct HomeViewCell_Previews: PreviewProvider {
+    static var previews: some View {
+        GeometryReader { proxy in
+            HomeViewCell(content: .init())
+                .previewLayout(.sizeThatFits)
         }
     }
 }

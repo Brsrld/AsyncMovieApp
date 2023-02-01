@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-final class HomeCellViewModel: ObservableObject {
+final class HomeCellViewModel {
     
     var content: Results
     var imageUrl: URL {
