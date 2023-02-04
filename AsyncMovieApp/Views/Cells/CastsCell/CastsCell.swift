@@ -9,12 +9,8 @@ import SwiftUI
 
 struct CastsCell: View {
     var proxy: GeometryProxy
-    var viewModel: CastsCellViewModel
-    
-    init(content:Cast, proxy: GeometryProxy) {
-        self.viewModel = CastsCellViewModel(content: content)
-        self.proxy = proxy
-    }
+    var name: String
+    var url : URL
     
     var body: some View {
         VStack(spacing: 12) {
@@ -22,7 +18,7 @@ struct CastsCell: View {
                 .cornerRadius(10)
             
             HStack {
-                Text(viewModel.name)
+                Text(name)
                     .modifier(AppViewBuilder(textFont: .caption2, alingment: .leading))
                 Spacer()
             }
@@ -32,7 +28,7 @@ struct CastsCell: View {
     
     @ViewBuilder
     private func movieImage() -> some View {
-        AsyncImage(url: viewModel.imageUrl) { phase in
+        AsyncImage(url: url) { phase in
             switch phase {
             case .empty:
                 ProgressView()
@@ -54,7 +50,7 @@ struct CastsCell: View {
 struct CastsCell_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { proxy in
-            CastsCell(content: .init(), proxy: proxy)
+            CastsCell(proxy: proxy, name: "Ehmo", url: .applicationDirectory)
                 .previewLayout(.sizeThatFits)
         }
     }

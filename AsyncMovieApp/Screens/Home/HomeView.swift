@@ -61,11 +61,11 @@ struct HomeView: View {
                 ForEach(data, id: \.id) { movie in
                     VStack {
                         NavigationLink(
-                            destination: LazyView(DetailScreenView(id: movie.id ?? 0, type: movieType)),
+                            destination: LazyView(DetailScreenView(content: movie, type: movieType)),
                             label: {
                                 HomeViewCell(title: (movieType == .movie ? movie.title : movie.name) ?? "" ,
                                              overView: movieType == .people ? movie.knownFor?.first?.overview ?? "" : movie.overview ?? "",
-                                             imageURL:movieType == .people ? movie.profilePath ?? "" : movie.posterPath ?? "")
+                                             imageURL: viewModel.generateURL(imageUrl: movieType == .people ? movie.profilePath ?? "" : movie.posterPath ?? ""))
                             })
                     }
                     .onAppear{

@@ -59,6 +59,19 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
         changeState(.ready)
     }
     
+    func generateURL(imageUrl: String) -> URL {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = MoviesEndpoint.image(imagePath: imageUrl).scheme
+        urlComponents.host = MoviesEndpoint.image(imagePath: imageUrl).imageHost
+        urlComponents.path = MoviesEndpoint.image(imagePath: imageUrl).path
+        urlComponents.query = MoviesEndpoint.image(imagePath: imageUrl).query
+        
+        guard let url = urlComponents.url else {
+            return .applicationDirectory
+        }
+        return url
+    }
+    
     func loadMoreContent(movieModel:ModelResults) {
         guard let lastId = serviceContents?.results?.last?.id else { return }
         if movieModel.id ==  lastId  && serviceContents?.page != serviceContents?.totalPages {

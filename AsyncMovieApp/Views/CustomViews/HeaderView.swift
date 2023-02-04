@@ -11,28 +11,42 @@ struct HeaderView: View {
     var imageURl: URL
     var title: String
     var rating: Int
+    var status: String
     var proxy: GeometryProxy
+    var isPeople: Bool
     
     var body: some View {
         VStack {
             ZStack {
-                movieImage()
-                    .opacity(0.2)
+                VStack {
+                    movieImage()
+                        .opacity(0.2)
+                }
                 VStack(spacing: 12) {
                     movieImage()
                         .cornerRadius(10)
                         .frame(width: proxy.size.height / 3)
-                    
-                    VStack {
+                    VStack(spacing: 12) {
                         Text(title)
                             .modifier(AppViewBuilder(textFont: .title, alingment: .center))
-                        
-                        RatingView(rating: 4)
+                        ratingView()
                     }
                     .padding(.top)
                 }
-                .padding(.top, 32)
+                .padding(.top, isPeople ? 116 : 64)
             }
+        }
+    }
+    
+    @ViewBuilder
+    private func ratingView() -> some View {
+        if rating == 0 {
+            Text(status)
+                .modifier(AppViewBuilder(textFont: .headline, alingment: .center))
+            RatingView(rating: rating)
+                .hidden()
+        } else {
+            RatingView(rating: rating)
         }
     }
     
@@ -61,7 +75,7 @@ struct HeaderView_Previews: PreviewProvider {
     
     static var previews: some View {
         GeometryReader { proxy in
-            HeaderView(imageURl: .applicationDirectory, title: "Raya and The Last Dragon", rating: 5, proxy: proxy)
+            HeaderView(imageURl: .applicationDirectory, title: "Raya and The Last Dragon", rating: 0, status: "Kahta", proxy: proxy, isPeople: false )
                 .previewLayout(.sizeThatFits)
         }
     }

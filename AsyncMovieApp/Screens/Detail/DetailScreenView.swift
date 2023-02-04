@@ -11,8 +11,8 @@ struct DetailScreenView: View {
     @ObservedObject var viewModel: DetailScreenViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    init(id: Int, type: MovieType) {
-        self.viewModel = DetailScreenViewModel(id: id, type: type)
+    init(content: ModelResults, type: MovieType) {
+        self.viewModel = DetailScreenViewModel(content: content, type: type)
     }
     var body: some View {
         GeometryReader { proxy in
@@ -51,11 +51,13 @@ struct DetailScreenView: View {
     
     @ViewBuilder
     private func allComponents(proxy: GeometryProxy) -> some View  {
-        LazyVStack(spacing: 24) {
+        VStack(spacing: 24) {
             HeaderView(imageURl: viewModel.imageUrl ?? .applicationDirectory,
-                       title: (viewModel.movieDetail?.title ?? viewModel.tvDetail?.name) ?? "",
+                       title: (viewModel.movieDetail?.title ?? viewModel.tvDetail?.name) ?? viewModel.personDetail?.name ?? "",
                        rating: Int((viewModel.movieDetail?.voteAverage ?? viewModel.tvDetail?.voteAverage) ?? 0),
-                       proxy: proxy)
+                       status: viewModel.personDetail?.knownForDepartment ?? "",
+                       proxy: proxy,
+                       isPeople: viewModel.personDetail?.name != nil)
             summary()
             casts(proxy: proxy)
         }
@@ -65,21 +67,32 @@ struct DetailScreenView: View {
     private func casts(proxy: GeometryProxy) -> some View {
         VStack {
             HStack {
-                Text("Casts")
+                Text(viewModel.type == .people ? "Known For" :"Casts")
                     .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
                 Spacer()
             }
+            .padding(.leading)
+            
             ScrollView(.horizontal) {
                 LazyHGrid(rows: columnGrid(), spacing: 24){
                     if let data = viewModel.casts?.cast {
-                        ForEach(data, id: \.id) { items in
-                            CastsCell(content: items, proxy: proxy)
+                        ForEach(data, id: \.id) { item in
+                            CastsCell(proxy: proxy,
+                                      name: item.name ?? "",
+                                      url: viewModel.generateURL(imageUrl: item.profilePath ?? ""))
+                        }
+                    } else {
+                        if let data = viewModel.content.knownFor {
+                            ForEach(data, id: \.id) { item in
+                                CastsCell(proxy: proxy, name: item.title ?? "",
+                                          url: viewModel.generateURL(imageUrl: item.posterPath ?? ""))
+                            }
                         }
                     }
                 }
             }
+            .padding()
         }
-        .padding()
     }
     
     
@@ -87,12 +100,12 @@ struct DetailScreenView: View {
     private func summary() -> some View {
         VStack(spacing: 20) {
             HStack {
-                Text("Summary")
+                Text(viewModel.type == .people ? "Biography" :"Summary")
                     .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
                 Spacer()
             }
             
-            Text((viewModel.movieDetail?.overview ?? viewModel.tvDetail?.overview) ?? "")
+            Text((viewModel.movieDetail?.overview ?? viewModel.tvDetail?.overview) ?? viewModel.personDetail?.biography ?? "")
                 .modifier(AppViewBuilder(textFont: .callout, linelimit: 10, alingment: .leading))
         }
         .padding(.horizontal)
@@ -105,8 +118,8 @@ struct DetailScreenView: View {
     }
 }
 
-struct DetailScreenView_Previews: PreviewProvider {
-    static var previews: some View {
-        DetailScreenView(id: 31917, type: .tv)
-    }
-}
+//struct DetailScreenView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DetailScreenView(content: .init(adult: <#T##Bool?#>, backdropPath: <#T##String?#>, genreIDS: <#T##[Int]?#>, id: <#T##Int?#>, originalLanguage: <#T##String?#>, originalTitle: <#T##String?#>, popularity: <#T##Double?#>, posterPath: <#T##String?#>, releaseDate: <#T##String?#>, title: <#T##String?#>, name: <#T##String?#>, video: <#T##Bool?#>, voteAverage: <#T##Double?#>, voteCount: <#T##Int?#>, profilePath: <#T##String?#>, knownFor: <#T##[KnownFor]?#>), type: .tv)
+//    }
+//}

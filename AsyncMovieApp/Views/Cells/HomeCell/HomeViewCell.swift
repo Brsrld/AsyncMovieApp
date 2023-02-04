@@ -9,14 +9,10 @@ import SwiftUI
 
 struct HomeViewCell: View {
     let screenBounds = UIScreen.main.bounds
-    var viewModel: HomeCellViewModel
+    let title: String
+    let overView: String
+    let imageURL: URL
     
-    
-    init(title:String, overView:String, imageURL: String) {
-        self.viewModel = HomeCellViewModel(title: title,
-                                           overView: overView,
-                                           imageURL: imageURL)
-    }
     
     var body: some View {
         HStack(spacing:-8) {
@@ -32,7 +28,7 @@ struct HomeViewCell: View {
     @ViewBuilder
     private func movieImage() -> some View {
         HStack {
-            AsyncImage(url: viewModel.prepareImageURL()) { phase in
+            AsyncImage(url: imageURL) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -62,12 +58,12 @@ struct HomeViewCell: View {
         HStack {
             Spacer()
             VStack(alignment: .leading, spacing: 12) {
-                Text(viewModel.title)
+                Text(title)
                     .modifier(AppViewBuilder(textFont: .title3, linelimit: 2, alingment: .leading))
                     .padding(.horizontal,18)
                     .padding(.top, 8)
                     .frame(height: 64)
-                Text(viewModel.overView)
+                Text(overView)
                     .modifier(AppViewBuilder(textFont: .footnote, linelimit: 4, alingment: .leading))
                     .padding(.horizontal, 18)
                     .padding(.bottom, 8)
@@ -88,7 +84,7 @@ struct HomeViewCell_Previews: PreviewProvider {
         GeometryReader { proxy in
             HomeViewCell(title: "Raya and The Last Dragon",
                          overView:  "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
-                         imageURL: "")
+                         imageURL: .applicationDirectory)
                 .previewLayout(.sizeThatFits)
         }
     }

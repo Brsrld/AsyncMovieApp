@@ -12,14 +12,16 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
     @Published private(set) var movieDetail: ModelResults?
     @Published private(set) var casts: CastModel?
     @Published private(set) var tvDetail: TVDetailsModel?
+    @Published private(set) var personDetail: PeopleDetailsModel?
+    
     private let service: MoviesServiceable
-    var id: Int
+    var content: ModelResults
     var showingAlert: Bool = false
     var imageUrl: URL?
     var type: MovieType
     
-    init(id:Int, type:MovieType) {
-        self.id = id
+    init(content:ModelResults, type:MovieType) {
+        self.content = content
         self.type = type
         self.service = MoviesService()
         super.init()
@@ -37,6 +39,19 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
         self.imageUrl = url
     }
     
+    func generateURL(imageUrl: String) -> URL {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = MoviesEndpoint.image(imagePath: imageUrl).scheme
+        urlComponents.host = MoviesEndpoint.image(imagePath: imageUrl).imageHost
+        urlComponents.path = MoviesEndpoint.image(imagePath: imageUrl).path
+        urlComponents.query = MoviesEndpoint.image(imagePath: imageUrl).query
+        
+        guard let url = urlComponents.url else {
+            return .applicationDirectory
+        }
+        return url
+    }
+    
     func initializeService() {
         switch type {
         case .tv:
@@ -46,14 +61,14 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
             fetchDetails()
             fetchCast()
         case .people:
-            print("people")
+            fetchPersonDetail()
         }
     }
     
     private func fetchTvDetails() {
         self.changeState(.loading)
         Task(priority: .background) { [weak self] in
-            let result = await service.getTVDetails(id: id)
+            let result = await service.getTVDetails(id: content.id ?? 0)
             
             self?.changeState(.finished)
             switch result {
@@ -72,7 +87,7 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
     private func fetchTvCast() {
         self.changeState(.loading)
         Task(priority: .background) { [weak self] in
-            let result = await service.getTVCredits(id: id)
+            let result = await service.getTVCredits(id: content.id ?? 0)
             
             self?.changeState(.finished)
             switch result {
@@ -90,7 +105,7 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
     private func fetchDetails() {
         self.changeState(.loading)
         Task(priority: .background) { [weak self] in
-            let result = await service.getDetail(id: id)
+            let result = await service.getDetail(id: content.id ?? 0)
             
             self?.changeState(.finished)
             switch result {
@@ -109,13 +124,32 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
     private func fetchCast() {
         self.changeState(.loading)
         Task(priority: .background) { [weak self] in
-            let result = await service.getMovieCredits(id: id)
+            let result = await service.getMovieCredits(id: content.id ?? 0)
             
             self?.changeState(.finished)
             switch result {
             case .success(let data):
                 DispatchQueue.main.async { [weak self] in
                     self?.casts = data
+                }
+            case .failure(let error):
+                self?.changeState(.error(error: error.localizedDescription))
+                self?.showingAlert = true
+            }
+        }
+    }
+    
+    private func fetchPersonDetail() {
+        self.changeState(.loading)
+        Task(priority: .background) { [weak self] in
+            let result = await service.getPersonDetail(id: content.id ?? 0)
+            
+            self?.changeState(.finished)
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async { [weak self] in
+                    self?.personDetail = data
+                    self?.prepareUrl(url: data.profilePath ?? "")
                 }
             case .failure(let error):
                 self?.changeState(.error(error: error.localizedDescription))
