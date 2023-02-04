@@ -32,13 +32,13 @@ struct HomeView: View {
             ProgressView()
         case .finished:
             chooseMovieType()
-            movieList(content: viewModel.topRatedMovies?.results)
+            movieList(content: viewModel.serviceContents?.results)
         case .searching:
             movieList(content: viewModel.filteredData)
         case .ready:
             ProgressView()
                 .onAppear{
-                    viewModel.fetchMovies(page: 1, movieType: movieType)
+                    viewModel.fetchMovies(page: 1)
                 }
         case .error(error: let error):
             ProgressView()
@@ -54,7 +54,7 @@ struct HomeView: View {
         }
     }
     @ViewBuilder
-    private func movieList(content:[Results]?) -> some View {
+    private func movieList(content:[ModelResults]?) -> some View {
         
         LazyVStack(spacing:-8) {
             if let data = content {
@@ -63,11 +63,14 @@ struct HomeView: View {
                         NavigationLink(
                             destination: LazyView(DetailScreenView(id: movie.id ?? 0, type: movieType)),
                             label: {
-                                HomeViewCell(content: movie)
+                                HomeViewCell(title: (movieType == .movie ? movie.title : movie.name) ?? "" ,
+                                             overView: movieType == .people ? movie.knownFor?.first?.overview ?? "" : movie.overview ?? "",
+                                             imageURL:movieType == .people ? movie.profilePath ?? "" : movie.posterPath ?? "")
                             })
                     }
                     .onAppear{
-                        viewModel.loadMoreContent(movieModel: movie, movieType: movieType)
+                        viewModel.movieType = movieType
+                        viewModel.loadMoreContent(movieModel: movie)
                     }
                 }
             }
@@ -83,8 +86,9 @@ struct HomeView: View {
             }
         }
         .onChange(of: movieType, perform: { newValue in
+            viewModel.movieType = newValue
             viewModel.changeStateToReady()
-            viewModel.fetchMovies(page: 1, movieType: newValue)
+            viewModel.fetchMovies(page: 1)
             self.movieType = newValue
         })
         .pickerStyle(.segmented)

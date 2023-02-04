@@ -9,7 +9,7 @@ import Foundation
 
 final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
     
-    @Published private(set) var movieDetail: Results?
+    @Published private(set) var movieDetail: ModelResults?
     @Published private(set) var casts: CastModel?
     @Published private(set) var tvDetail: TVDetailsModel?
     private let service: MoviesServiceable

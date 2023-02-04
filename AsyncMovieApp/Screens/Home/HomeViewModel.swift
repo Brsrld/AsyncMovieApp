@@ -27,14 +27,14 @@ enum MovieType {
 
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
     
-    @Published private(set) var topRatedMovies: ServiceModel?
+    @Published private(set) var serviceContents: ServiceModel?
+    @Published private(set) var filteredData = [ModelResults]()
+    
+    private(set) var movieTypes: [MovieType] = [.movie,.people,.tv]
     private let service: MoviesServiceable
-    var filteredData = [Results]()
     var showingAlert: Bool = false
-    var movieTypes: [MovieType] = [.movie,.people,.tv]
-    var lastContent:Int {
-        return topRatedMovies?.results?.last?.id ?? 0
-    }
+    var movieType: MovieType = .movie
+   
     
     override init() {
         self.service = MoviesService()
@@ -48,44 +48,45 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
                 changeState(.searching)
             }
         }
-        guard let data = topRatedMovies?.results else { return }
+        guard let data = serviceContents?.results else { return }
         filteredData = data.filter {
             (($0.title ?? $0.name) ?? "").contains(searchTerm)
         }
     }
     
     func changeStateToReady() {
-        topRatedMovies = nil
+        serviceContents = nil
         changeState(.ready)
     }
     
-    func loadMoreContent(movieModel:Results, movieType: MovieType) {
-        if movieModel.id ==  lastContent  && topRatedMovies?.page != topRatedMovies?.totalPages {
-            fetchMovies(page: (topRatedMovies?.page ?? 1) + 1, movieType: movieType)
+    func loadMoreContent(movieModel:ModelResults) {
+        guard let lastId = serviceContents?.results?.last?.id else { return }
+        if movieModel.id ==  lastId  && serviceContents?.page != serviceContents?.totalPages {
+            fetchMovies(page: (serviceContents?.page ?? 1) + 1)
         }
     }
     
     func appendItems(items: ServiceModel) {
-        if topRatedMovies?.results == nil {
-            topRatedMovies = items
-            topRatedMovies?.results = items.results?.filter {
+        if serviceContents?.results == nil {
+            serviceContents = items
+            serviceContents?.results = items.results?.filter {
                 $0.overview != ""
             }
         } else {
-            guard var result = topRatedMovies?.results,
+            guard var result = serviceContents?.results,
                   let contents = items.results else { return }
-            topRatedMovies?.totalPages = items.totalPages
-            topRatedMovies?.page = items.page
-            topRatedMovies?.totalResults = items.totalResults
+            serviceContents?.totalPages = items.totalPages
+            serviceContents?.page = items.page
+            serviceContents?.totalResults = items.totalResults
             result.append(contentsOf: contents)
             result = result.filter {
                 $0.overview != ""
             }
-            topRatedMovies?.results = result
+            serviceContents?.results = result
         }
     }
     
-    func fetchMovies(page:Int, movieType: MovieType) {
+    func fetchMovies(page:Int) {
         if page == 1 {
             self.changeState(.loading)
         }

@@ -11,8 +11,11 @@ struct HomeViewCell: View {
     let screenBounds = UIScreen.main.bounds
     var viewModel: HomeCellViewModel
     
-    init(content:Results) {
-        self.viewModel = HomeCellViewModel(content: content)
+    
+    init(title:String, overView:String, imageURL: String) {
+        self.viewModel = HomeCellViewModel(title: title,
+                                           overView: overView,
+                                           imageURL: imageURL)
     }
     
     var body: some View {
@@ -29,7 +32,7 @@ struct HomeViewCell: View {
     @ViewBuilder
     private func movieImage() -> some View {
         HStack {
-            AsyncImage(url: viewModel.imageUrl) { phase in
+            AsyncImage(url: viewModel.prepareImageURL()) { phase in
                 switch phase {
                 case .empty:
                     ProgressView()
@@ -59,12 +62,12 @@ struct HomeViewCell: View {
         HStack {
             Spacer()
             VStack(alignment: .leading, spacing: 12) {
-                Text(viewModel.title == "" ? viewModel.name : viewModel.title)
+                Text(viewModel.title)
                     .modifier(AppViewBuilder(textFont: .title3, linelimit: 2, alingment: .leading))
                     .padding(.horizontal,18)
                     .padding(.top, 8)
                     .frame(height: 64)
-                Text(viewModel.overView == "" ? viewModel.knownForMovies : viewModel.overView)
+                Text(viewModel.overView)
                     .modifier(AppViewBuilder(textFont: .footnote, linelimit: 4, alingment: .leading))
                     .padding(.horizontal, 18)
                     .padding(.bottom, 8)
@@ -83,7 +86,9 @@ struct HomeViewCell: View {
 struct HomeViewCell_Previews: PreviewProvider {
     static var previews: some View {
         GeometryReader { proxy in
-            HomeViewCell(content: .init())
+            HomeViewCell(title: "Raya and The Last Dragon",
+                         overView:  "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+                         imageURL: "")
                 .previewLayout(.sizeThatFits)
         }
     }

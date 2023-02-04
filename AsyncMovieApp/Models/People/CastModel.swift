@@ -9,21 +9,20 @@ import Foundation
 
 // MARK: - CastModel
 struct CastModel: Codable {
+    let cast, crew: [Cast]?
     let id: Int?
-    let cast: [Cast]?
 }
 
 // MARK: - Cast
 struct Cast: Codable {
     let adult: Bool?
     let gender, id: Int?
-    let knownForDepartment: KnownForDepartment?
-    let name, originalName: String?
+    let knownForDepartment, name, originalName: String?
     let popularity: Double?
     let profilePath: String?
-    let castID: Int?
     let character, creditID: String?
     let order: Int?
+    let department, job: String?
 
     enum CodingKeys: String, CodingKey {
         case adult, gender, id
@@ -32,24 +31,24 @@ struct Cast: Codable {
         case originalName = "original_name"
         case popularity
         case profilePath = "profile_path"
-        case castID = "cast_id"
         case character
         case creditID = "credit_id"
-        case order
+        case order, department, job
     }
     
     init(adult: Bool? = nil,
          gender: Int? = nil,
          id: Int? = nil,
-         knownForDepartment: KnownForDepartment? = nil,
+         knownForDepartment: String? = nil,
          name: String? = "Ezgi Suhel Aktas",
          originalName: String? = nil,
          popularity: Double? = nil,
          profilePath: String? = nil,
-         castID: Int? = nil,
+         job: String? = nil,
          character: String? = nil,
          creditID: String? = nil,
-         order: Int? = nil) {
+         order: Int? = nil,
+         department: String? = nil) {
         
         self.adult = adult
         self.gender = gender
@@ -59,14 +58,10 @@ struct Cast: Codable {
         self.originalName = originalName
         self.popularity = popularity
         self.profilePath = profilePath
-        self.castID = castID
         self.character = character
         self.creditID = creditID
         self.order = order
+        self.job = job
+        self.department = department
     }
-}
-
-enum KnownForDepartment: String, Codable {
-    case acting = "Acting"
-    case writing = "Writing"
 }

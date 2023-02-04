@@ -10,9 +10,9 @@ import Foundation
 // MARK: - TopRated
 struct ServiceModel: Codable {
     var page: Int?
+    var results: [ModelResults]?
     var totalPages: Int?
     var totalResults: Int?
-    var results: [Results]?
 
     enum CodingKeys: String, CodingKey {
         case page
