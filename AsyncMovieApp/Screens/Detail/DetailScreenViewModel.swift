@@ -64,7 +64,7 @@ final class DetailScreenViewModel: BaseViewModel<DetailViewStates> {
             fetchCast()
         case .people:
             fetchPersonDetail()
-            //fetchPersonMovieCredits()
+            fetchPersonMovieCredits()
             fetchPersonTvCredits()
         }
     }

@@ -78,9 +78,9 @@ extension MoviesEndpoint: Endpoint {
         case .tvCredits(let id):
             return "/3/tv/\(id)/credits"
         case .personMovieCredits(let id):
-            return "/3/person/\(id)/tv_credits"
-        case.personTvCredits(let id):
             return "/3/person/\(id)/movie_credits"
+        case .personTvCredits(let id):
+            return "/3/person/\(id)/tv_credits"
         }
     }
 

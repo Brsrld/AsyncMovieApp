@@ -23,6 +23,7 @@ struct PeopleCredit: Codable {
     let genreIDS: [Int]?
     let originalLanguage: String?
     let originalTitle: String?
+    let name: String?
     let popularity: Double?
     let id: Int?
     let backdropPath: String?
@@ -45,6 +46,7 @@ struct PeopleCredit: Codable {
         case popularity, id
         case backdropPath = "backdrop_path"
         case overview
+        case name
         case posterPath = "poster_path"
         case department, job
     }

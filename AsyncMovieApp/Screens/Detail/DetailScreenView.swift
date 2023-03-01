@@ -59,7 +59,44 @@ struct DetailScreenView: View {
                        proxy: proxy,
                        isPeople: viewModel.personDetail?.name != nil)
             summary()
-            casts(proxy: proxy)
+            switch viewModel.type {
+            case .tv:
+                casts(proxy: proxy)
+            case .people:
+                movie(proxy: proxy)
+                tvs(proxy: proxy)
+            case .movie:
+                casts(proxy: proxy)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func movie(proxy: GeometryProxy) -> some View {
+        
+        VStack {
+            HStack {
+                Text("Movies")
+                    .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
+                Spacer()
+            }
+            .padding(.leading)
+            
+            ScrollView(.horizontal) {
+                LazyHGrid(rows: columnGrid(), spacing: 24){
+                    if let data = viewModel.personMovieCredits?.cast {
+                        ForEach(data, id: \.id) { item in
+                            NavigationLink(
+                                destination: LazyView(DetailScreenView(id: item.id ?? 0, type: .movie)),
+                                label: {
+                                    CastsCell(name: item.title,
+                                              url: viewModel.generateURL(imageUrl: item.posterPath))
+                                })
+                        }
+                    }
+                }
+            }
+            .padding()
         }
     }
     
@@ -67,7 +104,7 @@ struct DetailScreenView: View {
     private func casts(proxy: GeometryProxy) -> some View {
         VStack {
             HStack {
-                Text(viewModel.type == .people ? "Known For" :"Casts")
+                Text("Casts")
                     .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
                 Spacer()
             }
@@ -80,17 +117,37 @@ struct DetailScreenView: View {
                             NavigationLink(
                                 destination: LazyView(DetailScreenView(id: item.id ?? 0, type: .people)),
                                 label: {
-                                    CastsCell(proxy: proxy,
-                                              name: item.name,
+                                    CastsCell(name: item.name,
                                               url: viewModel.generateURL(imageUrl: item.profilePath))
                                 })
                         }
-                    } else {
-                        if let data = viewModel.personMovieCredits?.cast {
-                            ForEach(data, id: \.id) { item in
-                                CastsCell(proxy: proxy, name: item.title,
-                                          url: viewModel.generateURL(imageUrl: item.posterPath))
-                            }
+                    }
+                }
+            }
+            .padding()
+        }
+    }
+    
+    @ViewBuilder
+    private func tvs(proxy: GeometryProxy) -> some View {
+        VStack {
+            HStack {
+                Text("Tv's")
+                    .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
+                Spacer()
+            }
+            .padding(.leading)
+            
+            ScrollView(.horizontal) {
+                LazyHGrid(rows: columnGrid(), spacing: 24){
+                    if let data = viewModel.personTVCredits?.cast {
+                        ForEach(data, id: \.id) { item in
+                            NavigationLink(
+                                destination: LazyView(DetailScreenView(id: item.id ?? 0, type: .tv)),
+                                label: {
+                                    CastsCell(name: item.name,
+                                              url: viewModel.generateURL(imageUrl: item.posterPath))
+                                })
                         }
                     }
                 }
@@ -109,8 +166,17 @@ struct DetailScreenView: View {
                 Spacer()
             }
             
-            Text((viewModel.movieDetail?.overview ?? viewModel.tvDetail?.overview) ?? viewModel.personDetail?.biography ?? "")
-                .modifier(AppViewBuilder(textFont: .callout, linelimit: 10, alingment: .leading))
+            switch viewModel.type {
+            case .people:
+                Text((viewModel.personDetail?.biography == "" ? "Biography does not exist" : viewModel.personDetail?.biography) ?? "")
+                    .modifier(AppViewBuilder(textFont: .callout, linelimit: 100, alingment: .leading))
+            case .tv:
+                Text((viewModel.tvDetail?.overview == "" ? "Overview does not exist" : viewModel.tvDetail?.overview) ?? "")
+                    .modifier(AppViewBuilder(textFont: .callout, linelimit: 100, alingment: .leading))
+            case .movie:
+                Text((viewModel.movieDetail?.overview == "" ? "Overview does not exist" : viewModel.movieDetail?.overview) ?? "")
+                    .modifier(AppViewBuilder(textFont: .callout, linelimit: 100, alingment: .leading))
+            }
         }
         .padding(.horizontal)
     }

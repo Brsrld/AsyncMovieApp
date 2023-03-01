@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct CastsCell: View {
-    var proxy: GeometryProxy
+    let proxy = UIScreen.main.bounds
     var name: String?
     var url : URL
+    var type: MovieType?
     
     var body: some View {
         VStack(spacing: 12) {
@@ -19,11 +20,11 @@ struct CastsCell: View {
             
             HStack {
                 Text(name ?? "")
-                    .modifier(AppViewBuilder(textFont: .caption2, alingment: .leading))
+                    .modifier(AppViewBuilder(textFont: type == .people ? .subheadline : .caption2 , alingment: .leading))
                 Spacer()
             }
         }
-        .frame(width: proxy.size.width / 4.25, height: proxy.size.height / 4.25)
+        .frame(width: type == .people ? proxy.size.width / 2.25 : proxy.size.width / 4.25, height: type == .people ? proxy.size.height / 3 : proxy.size.height / 4.25)
     }
     
     @ViewBuilder
@@ -49,9 +50,7 @@ struct CastsCell: View {
 
 struct CastsCell_Previews: PreviewProvider {
     static var previews: some View {
-        GeometryReader { proxy in
-            CastsCell(proxy: proxy, name: "Ehmo", url: .applicationDirectory)
-                .previewLayout(.sizeThatFits)
-        }
+        CastsCell( name: "Ehmo", url: .applicationDirectory, type: .people)
+            .previewLayout(.sizeThatFits)
     }
 }

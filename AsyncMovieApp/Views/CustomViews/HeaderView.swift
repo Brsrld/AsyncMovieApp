@@ -28,7 +28,8 @@ struct HeaderView: View {
                         .frame(width: proxy.size.height / 3)
                     VStack(spacing: 12) {
                         Text(title ?? "")
-                            .modifier(AppViewBuilder(textFont: .title, alingment: .center))
+                            .modifier(AppViewBuilder(textFont: .title, linelimit: 2, alingment: .center))
+                            .padding(.horizontal)
                         ratingView()
                     }
                     .padding(.top)

@@ -32,9 +32,24 @@ struct HomeView: View {
             ProgressView()
         case .finished:
             chooseMovieType()
-            movieList(content: viewModel.serviceContents?.results)
+            switch viewModel.movieType {
+            case .movie:
+                movieList(content: viewModel.serviceContents?.results)
+            case .tv:
+                movieList(content: viewModel.serviceContents?.results)
+            case .people:
+                people(content: viewModel.serviceContents?.results)
+            }
         case .searching:
-            movieList(content: viewModel.filteredData)
+            switch viewModel.movieType {
+            case .movie:
+                movieList(content: viewModel.filteredData)
+            case .tv:
+                movieList(content: viewModel.filteredData)
+            case .people:
+                people(content: viewModel.filteredData)
+            }
+            
         case .ready:
             ProgressView()
                 .onAppear{
@@ -63,9 +78,9 @@ struct HomeView: View {
                         NavigationLink(
                             destination: LazyView(DetailScreenView(id: movie.id ?? 0, type: movieType)),
                             label: {
-                                HomeViewCell(title: (movieType == .movie ? movie.title : movie.name) ,
-                                             overView: movieType == .people ? "movie.knownFor?.first?.overview ": movie.overview,
-                                             imageURL: viewModel.generateURL(imageUrl: movieType == .people ? movie.profilePath: movie.posterPath))
+                                HomeViewCell(title: (movieType == .movie ? movie.title : movie.name),
+                                             overView: movie.overview,
+                                             imageURL: viewModel.generateURL(imageUrl: movie.posterPath))
                             })
                     }
                     .onAppear{
@@ -93,6 +108,37 @@ struct HomeView: View {
         })
         .pickerStyle(.segmented)
         .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private func people(content:[ModelResults]?) -> some View {
+        LazyVGrid(columns: columnGrid(),spacing: 24) {
+            if let data = content {
+                ForEach(data, id: \.id) { item in
+                    VStack {
+                        NavigationLink(
+                            destination: LazyView(DetailScreenView(id: item.id ?? 0, type: movieType)),
+                            label: {
+                                CastsCell(name: item.name,
+                                          url: viewModel.generateURL(imageUrl: item.profilePath),
+                                          type: .people)
+                            })
+                    }
+                    .onAppear{
+                        viewModel.movieType = movieType
+                        viewModel.loadMoreContent(movieModel: item)
+                    }
+                }
+            }
+        }
+        .padding()
+    }
+    
+    private func columnGrid() -> [GridItem] {
+        return   [
+            GridItem(.flexible()),
+            GridItem(.flexible())
+        ]
     }
 }
 

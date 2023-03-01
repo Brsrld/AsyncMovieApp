@@ -56,7 +56,7 @@ struct MoviesService: HTTPClient, MoviesServiceable {
     }
     
     func personMovieCredits(id: Int) async -> Result<PeopleCredits, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: PeopleCredits.self)
+        return await sendRequest(endpoint: MoviesEndpoint.personMovieCredits(id: id), responseModel: PeopleCredits.self)
     }
     
     func personTvCredits(id: Int) async -> Result<PeopleCredits, RequestError> {
