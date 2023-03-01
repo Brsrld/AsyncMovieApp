@@ -14,6 +14,5 @@ struct LazyView<Content: View>: View {
     }
     var body: Content {
         build()
-            
     }
 }

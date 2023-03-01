@@ -70,8 +70,7 @@ struct HomeView: View {
     }
     @ViewBuilder
     private func movieList(content:[ModelResults]?) -> some View {
-        
-        LazyVStack(spacing:-8) {
+        LazyVStack(spacing: -8) {
             if let data = content {
                 ForEach(data, id: \.id) { movie in
                     VStack {

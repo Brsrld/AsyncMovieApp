@@ -156,7 +156,6 @@ struct DetailScreenView: View {
         }
     }
     
-    
     @ViewBuilder
     private func summary() -> some View {
         VStack(spacing: 20) {
@@ -165,7 +164,6 @@ struct DetailScreenView: View {
                     .modifier(AppViewBuilder(textFont: .title, alingment: .leading))
                 Spacer()
             }
-            
             switch viewModel.type {
             case .people:
                 Text((viewModel.personDetail?.biography == "" ? "Biography does not exist" : viewModel.personDetail?.biography) ?? "")

@@ -317,7 +317,6 @@
 			);
 			mainGroup = 55C2BE5D298691D4008B1939;
 			packageReferences = (
-				55A3C5C3298EF7C5007434C9 /* XCRemoteSwiftPackageReference "swiftui-youtube-player" */,
 				55A3C5C6298EF9D2007434C9 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 			);
 			productRefGroup = 55C2BE67298691D4008B1939 /* Products */;
@@ -583,14 +582,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		55A3C5C3298EF7C5007434C9 /* XCRemoteSwiftPackageReference "swiftui-youtube-player" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/globulus/swiftui-youtube-player";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		55A3C5C6298EF9D2007434C9 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper";

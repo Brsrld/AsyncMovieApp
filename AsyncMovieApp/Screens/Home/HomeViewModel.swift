@@ -35,7 +35,6 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
     var showingAlert: Bool = false
     var movieType: MovieType = .movie
    
-    
     override init() {
         self.service = MoviesService()
     }

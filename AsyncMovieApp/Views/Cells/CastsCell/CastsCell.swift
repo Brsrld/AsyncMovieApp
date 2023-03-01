@@ -17,14 +17,16 @@ struct CastsCell: View {
         VStack(spacing: 12) {
             movieImage()
                 .cornerRadius(10)
-            
             HStack {
                 Text(name ?? "")
                     .modifier(AppViewBuilder(textFont: type == .people ? .subheadline : .caption2 , alingment: .leading))
                 Spacer()
             }
         }
-        .frame(width: type == .people ? proxy.size.width / 2.25 : proxy.size.width / 4.25, height: type == .people ? proxy.size.height / 3 : proxy.size.height / 4.25)
+        .frame(width: type == .people ? proxy.size.width / 2.25 :
+                proxy.size.width / 4.25, height :
+                type == .people ? proxy.size.height / 3 :
+                proxy.size.height / 5)
     }
     
     @ViewBuilder
