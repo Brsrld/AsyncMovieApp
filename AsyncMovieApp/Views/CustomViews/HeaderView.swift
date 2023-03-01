@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HeaderView: View {
     var imageURl: URL
-    var title: String
-    var rating: Int
-    var status: String
+    var title: String?
+    var rating: Double?
+    var status: String?
     var proxy: GeometryProxy
     var isPeople: Bool
     
@@ -27,7 +27,7 @@ struct HeaderView: View {
                         .cornerRadius(10)
                         .frame(width: proxy.size.height / 3)
                     VStack(spacing: 12) {
-                        Text(title)
+                        Text(title ?? "")
                             .modifier(AppViewBuilder(textFont: .title, alingment: .center))
                         ratingView()
                     }
@@ -40,8 +40,8 @@ struct HeaderView: View {
     
     @ViewBuilder
     private func ratingView() -> some View {
-        if rating == 0 {
-            Text(status)
+        if isPeople {
+            Text(status ?? "")
                 .modifier(AppViewBuilder(textFont: .headline, alingment: .center))
             RatingView(rating: rating)
                 .hidden()

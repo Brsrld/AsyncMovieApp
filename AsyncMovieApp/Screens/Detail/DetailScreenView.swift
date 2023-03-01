@@ -11,8 +11,8 @@ struct DetailScreenView: View {
     @ObservedObject var viewModel: DetailScreenViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    init(content: ModelResults, type: MovieType) {
-        self.viewModel = DetailScreenViewModel(content: content, type: type)
+    init(id: Int?, type: MovieType) {
+        self.viewModel = DetailScreenViewModel(id: id, type: type)
     }
     var body: some View {
         GeometryReader { proxy in
@@ -53,9 +53,9 @@ struct DetailScreenView: View {
     private func allComponents(proxy: GeometryProxy) -> some View  {
         VStack(spacing: 24) {
             HeaderView(imageURl: viewModel.imageUrl ?? .applicationDirectory,
-                       title: (viewModel.movieDetail?.title ?? viewModel.tvDetail?.name) ?? viewModel.personDetail?.name ?? "",
-                       rating: Int((viewModel.movieDetail?.voteAverage ?? viewModel.tvDetail?.voteAverage) ?? 0),
-                       status: viewModel.personDetail?.knownForDepartment ?? "",
+                       title: (viewModel.movieDetail?.title ?? viewModel.tvDetail?.name) ?? viewModel.personDetail?.name,
+                       rating: viewModel.movieDetail?.voteAverage ?? viewModel.tvDetail?.voteAverage,
+                       status: viewModel.personDetail?.knownForDepartment,
                        proxy: proxy,
                        isPeople: viewModel.personDetail?.name != nil)
             summary()
@@ -77,15 +77,19 @@ struct DetailScreenView: View {
                 LazyHGrid(rows: columnGrid(), spacing: 24){
                     if let data = viewModel.casts?.cast {
                         ForEach(data, id: \.id) { item in
-                            CastsCell(proxy: proxy,
-                                      name: item.name ?? "",
-                                      url: viewModel.generateURL(imageUrl: item.profilePath ?? ""))
+                            NavigationLink(
+                                destination: LazyView(DetailScreenView(id: item.id ?? 0, type: .people)),
+                                label: {
+                                    CastsCell(proxy: proxy,
+                                              name: item.name,
+                                              url: viewModel.generateURL(imageUrl: item.profilePath))
+                                })
                         }
                     } else {
-                        if let data = viewModel.content.knownFor {
+                        if let data = viewModel.personMovieCredits?.cast {
                             ForEach(data, id: \.id) { item in
-                                CastsCell(proxy: proxy, name: item.title ?? "",
-                                          url: viewModel.generateURL(imageUrl: item.posterPath ?? ""))
+                                CastsCell(proxy: proxy, name: item.title,
+                                          url: viewModel.generateURL(imageUrl: item.posterPath))
                             }
                         }
                     }
@@ -118,8 +122,8 @@ struct DetailScreenView: View {
     }
 }
 
-//struct DetailScreenView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailScreenView(content: .init(adult: <#T##Bool?#>, backdropPath: <#T##String?#>, genreIDS: <#T##[Int]?#>, id: <#T##Int?#>, originalLanguage: <#T##String?#>, originalTitle: <#T##String?#>, popularity: <#T##Double?#>, posterPath: <#T##String?#>, releaseDate: <#T##String?#>, title: <#T##String?#>, name: <#T##String?#>, video: <#T##Bool?#>, voteAverage: <#T##Double?#>, voteCount: <#T##Int?#>, profilePath: <#T##String?#>, knownFor: <#T##[KnownFor]?#>), type: .tv)
-//    }
-//}
+struct DetailScreenView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailScreenView(id: 550, type: .movie)
+    }
+}

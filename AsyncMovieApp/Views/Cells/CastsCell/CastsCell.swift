@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CastsCell: View {
     var proxy: GeometryProxy
-    var name: String
+    var name: String?
     var url : URL
     
     var body: some View {
@@ -18,7 +18,7 @@ struct CastsCell: View {
                 .cornerRadius(10)
             
             HStack {
-                Text(name)
+                Text(name ?? "")
                     .modifier(AppViewBuilder(textFont: .caption2, alingment: .leading))
                 Spacer()
             }

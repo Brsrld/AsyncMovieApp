@@ -25,7 +25,6 @@ struct ModelResults: Codable {
     let voteAverage: Double?
     let voteCount: Int?
     let profilePath: String?
-    let knownFor: [KnownFor]?
     
     enum CodingKeys: String, CodingKey {
         case adult
@@ -44,6 +43,5 @@ struct ModelResults: Codable {
         case releaseDate = "release_date"
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
-        case knownFor = "known_for"
     }
 }

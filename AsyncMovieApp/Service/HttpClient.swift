@@ -21,7 +21,9 @@ extension HTTPClient {
         urlComponents.scheme = endpoint.scheme
         urlComponents.host = endpoint.host
         urlComponents.path = endpoint.path
-        urlComponents.query = endpoint.query
+        if !endpoint.query.isEmpty{
+            urlComponents.query = endpoint.query
+        }
         
         guard let url = urlComponents.url else {
             return .failure(.invalidURL)

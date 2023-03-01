@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RatingView: View {
-    var rating: Int
+    var rating: Double?
     var maxRating = 5
     
     var offImage: Image?
@@ -23,14 +23,14 @@ struct RatingView: View {
             ForEach(1..<maxRating + 1, id: \.self) { number in
                 image(for: number)
                     .resizable()
-                    .foregroundColor(number > rating ? offColor : onColor)
+                    .foregroundColor(number > Int(rating ?? 0) ? offColor : onColor)
                     .frame(width: 32, height:32)
             }
         }
     }
     
     func image(for number: Int) -> Image {
-        if number > rating {
+        if number > Int(rating ?? 0) {
             return offImage ?? onImage
         } else {
             return onImage

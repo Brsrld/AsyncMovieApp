@@ -17,6 +17,9 @@ protocol MoviesServiceable {
     func getMovieCredits(id: Int) async -> Result<CastModel, RequestError>
     func getTVDetails(id: Int) async -> Result<TVDetailsModel, RequestError>
     func getTVCredits(id: Int) async -> Result<CastModel, RequestError>
+    func personTvCredits(id: Int) async -> Result<PeopleCredits, RequestError>
+    func personMovieCredits(id: Int) async -> Result<PeopleCredits, RequestError>
+    
 }
 
 struct MoviesService: HTTPClient, MoviesServiceable {
@@ -45,10 +48,18 @@ struct MoviesService: HTTPClient, MoviesServiceable {
     }
     
     func getTVDetails(id: Int) async -> Result<TVDetailsModel, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: TVDetailsModel.self)
+        return await sendRequest(endpoint: MoviesEndpoint.tvDetails(id: id), responseModel: TVDetailsModel.self)
     }
     
     func getTVCredits(id: Int) async -> Result<CastModel, RequestError> {
-        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: CastModel.self)
+        return await sendRequest(endpoint: MoviesEndpoint.tvCredits(id: id), responseModel: CastModel.self)
+    }
+    
+    func personMovieCredits(id: Int) async -> Result<PeopleCredits, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.movieCredits(id: id), responseModel: PeopleCredits.self)
+    }
+    
+    func personTvCredits(id: Int) async -> Result<PeopleCredits, RequestError> {
+        return await sendRequest(endpoint: MoviesEndpoint.personTvCredits(id: id), responseModel: PeopleCredits.self)
     }
 }

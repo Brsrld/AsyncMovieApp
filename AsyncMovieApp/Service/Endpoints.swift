@@ -34,15 +34,17 @@ extension Endpoint {
 
 enum MoviesEndpoint {
     case movie(page: Int)
-    case tv(page: Int)
-    case people(page: Int)
     case movieDetail(id: Int)
     case movieCredits(id: Int)
-    case person(id: Int)
-    case video(id: Int)
-    case image(imagePath:String)
+    case tv(page: Int)
     case tvDetails(id:Int)
     case tvCredits(id:Int)
+    case people(page: Int)
+    case person(id: Int)
+    case personTvCredits(id: Int)
+    case personMovieCredits(id: Int)
+    case image(imagePath:String)
+  
 }
 
 extension MoviesEndpoint: Endpoint {
@@ -50,7 +52,7 @@ extension MoviesEndpoint: Endpoint {
         switch self {
         case .movie(let page), .tv(let page), .people(let page):
             return "page=\(page)"
-        case .movieDetail, .person, .image, .video, .movieCredits, .tvDetails, .tvCredits:
+        case .movieDetail, .person, .image, .movieCredits, .tvDetails, .tvCredits, .personTvCredits, .personMovieCredits:
             return ""
         }
     }
@@ -71,18 +73,20 @@ extension MoviesEndpoint: Endpoint {
             return "/3/person/popular"
         case .movieCredits(let id):
             return "/3/movie/\(id)/credits"
-        case .video(let id):
-            return "/3/movie/\(id)/videos"
         case .tvDetails(let id):
             return "/3/tv/\(id)"
         case .tvCredits(let id):
             return "/3/tv/\(id)/credits"
+        case .personMovieCredits(let id):
+            return "/3/person/\(id)/tv_credits"
+        case.personTvCredits(let id):
+            return "/3/person/\(id)/movie_credits"
         }
     }
 
     var method: RequestMethod {
         switch self {
-        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .video, .tvDetails, .tvCredits:
+        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .tvDetails, .tvCredits, .personTvCredits, .personMovieCredits:
             return .get
         }
     }
@@ -91,7 +95,7 @@ extension MoviesEndpoint: Endpoint {
         // Access Token to use in Bearer header
         let accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyZTAyZjg5OWQyZjhmNjdlZGMxNjYyZmFmZmVkM2Y0MSIsInN1YiI6IjYwOTMxODIyZmQ2ZmExMDA1ODU1MmYwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.fVP-A30256wyYzFw8HaFtkR6XQjDZ0Iqh-DElU_C2R8"
         switch self {
-        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .video, .tvDetails, .tvCredits:
+        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .tvDetails, .tvCredits, .personTvCredits, .personMovieCredits:
             return [
                 "Authorization": "Bearer \(accessToken)",
                 "Content-Type": "application/json;charset=utf-8"
@@ -101,7 +105,7 @@ extension MoviesEndpoint: Endpoint {
     
     var body: [String: String]? {
         switch self {
-        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .video, .tvDetails, .tvCredits:
+        case .movie, .movieDetail, .image, .tv, .people, .person, .movieCredits, .tvDetails, .tvCredits, .personTvCredits, .personMovieCredits:
             return nil
         }
     }

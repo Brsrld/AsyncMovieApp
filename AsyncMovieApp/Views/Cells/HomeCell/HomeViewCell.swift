@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HomeViewCell: View {
     let screenBounds = UIScreen.main.bounds
-    let title: String
-    let overView: String
-    let imageURL: URL
+    let title: String?
+    let overView: String?
+    let imageURL: URL?
     
     
     var body: some View {
@@ -58,12 +58,12 @@ struct HomeViewCell: View {
         HStack {
             Spacer()
             VStack(alignment: .leading, spacing: 12) {
-                Text(title)
+                Text(title ?? "")
                     .modifier(AppViewBuilder(textFont: .title3, linelimit: 2, alingment: .leading))
                     .padding(.horizontal,18)
                     .padding(.top, 8)
                     .frame(height: 64)
-                Text(overView)
+                Text(overView ?? "")
                     .modifier(AppViewBuilder(textFont: .footnote, linelimit: 4, alingment: .leading))
                     .padding(.horizontal, 18)
                     .padding(.bottom, 8)

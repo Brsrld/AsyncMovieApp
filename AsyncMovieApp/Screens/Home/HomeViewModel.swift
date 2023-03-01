@@ -59,12 +59,12 @@ final class HomeViewModel: BaseViewModel<HomeViewStates> {
         changeState(.ready)
     }
     
-    func generateURL(imageUrl: String) -> URL {
+    func generateURL(imageUrl: String?) -> URL {
+        guard let url = imageUrl else { return .applicationDirectory }
         var urlComponents = URLComponents()
-        urlComponents.scheme = MoviesEndpoint.image(imagePath: imageUrl).scheme
-        urlComponents.host = MoviesEndpoint.image(imagePath: imageUrl).imageHost
-        urlComponents.path = MoviesEndpoint.image(imagePath: imageUrl).path
-        urlComponents.query = MoviesEndpoint.image(imagePath: imageUrl).query
+        urlComponents.scheme = MoviesEndpoint.image(imagePath: url).scheme
+        urlComponents.host = MoviesEndpoint.image(imagePath: url).imageHost
+        urlComponents.path = MoviesEndpoint.image(imagePath: url).path
         
         guard let url = urlComponents.url else {
             return .applicationDirectory
