@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5502BDFB29D456060071F585 /* MovieType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5502BDFA29D456060071F585 /* MovieType.swift */; };
 		55219DBE2989AEFA001EC7F8 /* PeopleDetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55219DBD2989AEFA001EC7F8 /* PeopleDetailsModel.swift */; };
 		5562E9D82987CBAA00F30526 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9D72987CBAA00F30526 /* HomeViewCell.swift */; };
 		5562E9DE2987CEEA00F30526 /* AppViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5562E9DD2987CEEA00F30526 /* AppViewBuilder.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5502BDFA29D456060071F585 /* MovieType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieType.swift; sourceTree = "<group>"; };
 		55219DBD2989AEFA001EC7F8 /* PeopleDetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleDetailsModel.swift; sourceTree = "<group>"; };
 		5562E9D72987CBAA00F30526 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		5562E9DD2987CEEA00F30526 /* AppViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewBuilder.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				55C2BE842986969E008B1939 /* ModelResults.swift */,
 				55531CFF298EA3660040D0D3 /* TV */,
 				55531CFC298EA2D30040D0D3 /* People */,
+				5502BDFA29D456060071F585 /* MovieType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				55C2BE6A298691D4008B1939 /* AsyncMovieAppApp.swift in Sources */,
 				55C2BE8B2986BE42008B1939 /* HomeView.swift in Sources */,
 				55219DBE2989AEFA001EC7F8 /* PeopleDetailsModel.swift in Sources */,
+				5502BDFB29D456060071F585 /* MovieType.swift in Sources */,
 				55C2BE932986CDD4008B1939 /* HomeViewStates.swift in Sources */,
 				5562E9D82987CBAA00F30526 /* HomeViewCell.swift in Sources */,
 				5572F517298A64EF003A729B /* HeaderView.swift in Sources */,

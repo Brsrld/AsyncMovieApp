@@ -8,23 +8,6 @@
 import Foundation
 import SwiftUI
 
-enum MovieType {
-    case tv
-    case movie
-    case people
-    
-    var title: String {
-        switch self {
-        case .tv:
-            return "TV"
-        case .movie:
-            return "Movie"
-        case .people:
-            return "People"
-        }
-    }
-}
-
 final class HomeViewModel: BaseViewModel<HomeViewStates> {
     
     @Published private(set) var serviceContents: ServiceModel?
